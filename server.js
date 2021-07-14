@@ -18,7 +18,7 @@ const waitList = []
 //Routes
 app.get('/', (req,res) => res.sendFile(path.join(__dirname, './html/home.html')));
 
-app.get('/add', (req,res) => res.sendFile(path.join(__dirname, './html/make.html')));
+app.get('/make', (req,res) => res.sendFile(path.join(__dirname, './html/make.html')));
 
 app.get('/view', (req,res) => res.sendFile(path.join(__dirname, './html/view.html')));
 
