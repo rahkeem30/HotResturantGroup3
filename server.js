@@ -1,6 +1,7 @@
 // Dependencies
 const express = require("express");
 const path = require("path")
+const nodemon = require('nodemon');
 
 //Setting up express
 const app = express();
@@ -11,14 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //Reservation Data
-const reservations = [
-	{
-		name: '',
-		phoneNumber: '',
-		email: '',
-		uniqueId: ''
-	},
-]
+const reservations = []
+
+const waitList = []
 
 //Routes
 app.get('/', (req,res) => res.sendFile(path.join(__dirname, 'home.html')));
@@ -43,10 +39,26 @@ app.get('/api/reservations/:reservation', (req,res) => {
 app.post('/api/reservations', (req,res) => {
 	const newReservation = req.body;
 
-	newReservation.routeName = newReservation.name.replace(/\S+/g, '').toLowerCase();
 	console.log(newReservation);
 	reservations.push(newReservation);
 	res.json(newReservation);
+	res.json(reservations);
+	if(reservations.length > 4) {
+		app.post('/api/waitlist', (req,res) => {
+			const newReservation = req.body;
+		
+			console.log(newReservation);
+			waitList.push(newReservation);
+			res.json(newReservation);
+		})
+	}
 })
+
+displayArrays = () => {
+console.log(reservations);
+console.log(waitList);
+}
+
+displayArrays();
 
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
