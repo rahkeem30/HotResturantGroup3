@@ -22,17 +22,8 @@ app.get('/make', (req,res) => res.sendFile(path.join(__dirname, './html/make.htm
 
 app.get('/view', (req,res) => res.sendFile(path.join(__dirname, './html/view.html')));
 
-app.get('/api/reservations/:reservation', (req,res) => {
-	const chosen = req.params.reservation;
-
-	console.log(chosen);
-
-	for(let i=0; i < reservations.length; i++) {
-		if(chosen === reservations[i].length) {
-			return res.json(reservations[i]);
-		}
-	}
-	return res.json(false);
+app.get('/api/reservations', (req,res) => {
+	return res.json(reservations);
 })
 
 
