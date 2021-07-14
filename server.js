@@ -11,21 +11,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //Reservation Data
-const reservations = [
-	{
-		name: '',
-		phoneNumber: '',
-		email: '',
-		uniqueId: ''
-	},
-]
+const reservations = []
+
+const waitList = []
 
 //Routes
-app.get('/', (req,res) => res.sendFile(path.join(__dirname, 'home.html')));
+app.get('/', (req,res) => res.sendFile(path.join(__dirname, './html/home.html')));
 
-app.get('/add', (req,res) => res.sendFile(path.join(__dirname, 'make.html')));
+app.get('/add', (req,res) => res.sendFile(path.join(__dirname, './html/make.html')));
 
-app.get('/view', (req,res) => res.sendFile(path.join(__dirname, 'view.html')));
+app.get('/view', (req,res) => res.sendFile(path.join(__dirname, './html/view.html')));
 
 app.get('/api/reservations/:reservation', (req,res) => {
 	const chosen = req.params.reservation;
@@ -40,13 +35,31 @@ app.get('/api/reservations/:reservation', (req,res) => {
 	return res.json(false);
 })
 
+
+
 app.post('/api/reservations', (req,res) => {
 	const newReservation = req.body;
 
-	newReservation.routeName = newReservation.name.replace(/\S+/g, '').toLowerCase();
 	console.log(newReservation);
 	reservations.push(newReservation);
 	res.json(newReservation);
+	res.json(reservations);
+	if(reservations.length > 4) {
+		app.post('/api/waitlist', (req,res) => {
+			const newReservation = req.body;
+		
+			console.log(newReservation);
+			waitList.push(newReservation);
+			res.json(newReservation);
+		})
+	}
 })
+
+displayArrays = () => {
+console.log(reservations);
+console.log(waitList);
+}
+
+displayArrays();
 
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
