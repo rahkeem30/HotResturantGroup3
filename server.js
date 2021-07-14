@@ -1,7 +1,6 @@
 // Dependencies
 const express = require("express");
 const path = require("path")
-const nodemon = require('nodemon');
 
 //Setting up express
 const app = express();
